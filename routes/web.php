@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\azaleaController;
+use App\Http\Controllers\bedController;
+use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\dokterController;
+use App\Http\Controllers\pendaftaranController;
+use App\Http\Controllers\penjaminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('dashboard',dashboardController::class);
+
+Route::resource('master/dokter',dokterController::class);
+Route::resource('master/bed',bedController::class);
+Route::resource('master/penjamin',penjaminController::class);
+
+Route::resource('pendaftaran',pendaftaranController::class);
+
+Route::resource('azalea',azaleaController::class);

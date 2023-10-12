@@ -1,0 +1,54 @@
+#bedstatus ===============================================
+0: readytouse,			      5: waitinglist,
+1: terisi,					      6: renovasi,
+2: rencanapulang,		      7: male,
+3: readytoclean,			    8: female
+4: booking,
+
+==========================================================
+CREATE VIEW VtrxBedPasien AS SELECT 
+	m_bed.id,
+	m_bed.namabed,
+	m_bed.kelas,
+	m_bed.ruangan,
+	m_bed.trx_id,
+	m_bed.bedstatus,
+	m_bed.is_active,
+	m_bed.created_at,
+	m_bed.updated_at
+	
+	trx_pasien.namapasien,
+	trx_pasien.norekmed,
+	trx_pasien.alamatpasien,
+	
+FROM m_bed
+
+JOIN trx_pasien ON m_bed.trx_id = trx_pasien.trx_id
+
+==========================================================
+
+SELECT  trx_waitinglist.trx_id,
+        trx_pasien.pasien_id,
+        trx_pasien.namapasien,
+        trx_waitinglist.namabed
+FROM trx_waitinglist
+INNER JOIN trx_pasien ON trx_pasien.trx_id = trx_waitinglist.trx_id
+
+SELECT  mst_bed.id AS BED_ID,
+        trx_pasien.pasien_id AS NO_REKMED,
+        mst_bed.namabed,
+        mst_bed.trx_id,
+        mst_bed.bedstatus,
+
+        mst_pasien.pasien_id,
+        mst_pasien.namapasien,
+        mst_pasien.jeniskelamin,
+
+        trx_pasien.jaminan
+
+FROM ((trx_pasien
+
+INNER JOIN mst_bed ON mst_bed.trx_id = trx_pasien.trx_id)
+INNER JOIN mst_pasien ON mst_pasien.pasien_id = trx_pasien.pasien_id)
+
+==========================================================
