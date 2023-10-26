@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bed;
 use App\Models\Dokter;
 use App\Models\Penjamin;
+use App\Models\ppja;
 use App\Models\trxBooking;
 use App\Models\trxPasien;
 use Illuminate\Http\Request;
@@ -106,6 +107,9 @@ class azaleaController extends Controller
                         ->addSelect(['namapenjamin' => Penjamin::select('namapenjamin')
                             ->whereColumn('id','trx_pasien.penjamin')
                             ->limit(1)])
+                        ->addSelect(['namaperawat' => ppja::select('namaperawat')
+                            ->whereColumn('id','trx_pasien.ppja')
+                            ->limit(1)])
                         ->where('ruangan','azalea')
                         ->where('kelas','vvip')
                         ->get();
@@ -133,6 +137,9 @@ class azaleaController extends Controller
                         ->addSelect(['namapenjamin' => Penjamin::select('namapenjamin')
                             ->whereColumn('id','trx_pasien.penjamin')
                             ->limit(1)])
+                        ->addSelect(['namaperawat' => ppja::select('namaperawat')
+                            ->whereColumn('id','trx_pasien.ppja')
+                            ->limit(1)])
                         ->where('ruangan','azalea')
                         ->where('kelas','vip')
                         ->get();
@@ -159,6 +166,9 @@ class azaleaController extends Controller
                             ->limit(1)])
                         ->addSelect(['namapenjamin' => Penjamin::select('namapenjamin')
                             ->whereColumn('id','trx_pasien.penjamin')
+                            ->limit(1)])
+                        ->addSelect(['namaperawat' => ppja::select('namaperawat')
+                            ->whereColumn('id','trx_pasien.ppja')
                             ->limit(1)])
                         ->where('ruangan','azalea')
                         ->where('kelas','kelas 2')
@@ -213,7 +223,19 @@ class azaleaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $trxPasien  = trxPasien::with('Bed')
+                        ->where('trx_id', $id)
+                        ->first();
+        $dokter     = Dokter::orderBY('namadokter','asc')->get();
+        $penjamins = Penjamin::orderBY('namapenjamin','asc')->get();
+        $ppjas       = ppja::where('unit','azalea')
+                        ->orderBY('namaperawat','asc')->get();
+
+        return view('azalea.edit',[
+            'dokters'   => $dokter,
+            'penjamins' => $penjamins,
+            'ppjas'          => $ppjas
+        ])->with('trxPasien', $trxPasien);
     }
 
     /**
@@ -221,7 +243,7 @@ class azaleaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($id);
     }
 
     /**
@@ -230,5 +252,47 @@ class azaleaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function approveBooking($id)
+    {
+        $trxPasien  = trxPasien::where('trx_id', $id)
+                        ->first();
+
+        $bedtujuan = trxBooking::where('trx_id', $id)
+                        ->where('status','booking')
+                        ->first();
+
+        // penentuan jenis kelamin untuk menentukan warna pada box
+        if($trxPasien->jeniskelamin=='pria'){
+            $jeniskelamin = '7';
+        }else if($trxPasien->jeniskelamin=='wanita'){
+            $jeniskelamin = '8';
+        }
+
+        // pengisian variable update m_bed berdasarkan trx_id
+        $trxBed = [
+            'trx_id'    => $id,
+            'bedstatus' => $jeniskelamin
+        ];
+
+        // pengisian variable update trxPasien berdasarkan trx_id
+        $tglapprove = [
+            'tgl_approve'   => date('Y-m-d H:i:s'),
+            'status'        => 'ranap'
+        ];
+
+        // merubah status trxBooking berdasarkan trx_id
+        $approvebooking = [
+            'status'    => 'approve'
+        ];
+
+        // update ke DB
+        Bed::where('id',$bedtujuan->bed_tujuan)->update($trxBed);
+        trxPasien::where('trx_id',$id)->update($tglapprove);
+        trxBooking::where('trx_id',$id)->update($approvebooking);
+
+        // notif berhasil
+        return redirect()->route('azalea.index')->with('success','Pasien dengan nama '.$trxPasien->namapasien.' telah masuk ke Rawat inap Azalea!');
     }
 }

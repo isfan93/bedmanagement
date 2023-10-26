@@ -165,11 +165,15 @@
                       <label for="keterangan">Keterangan pasien</label>
                       <textarea id="keterangan" name="keterangan" type="text" class="form-control" placeholder="Keterangan..." rows="4"></textarea>
                     </div>
-                    <button type="submit" onclick="return  confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-sm btn-primary">Simpan data</button>
-                    <button type="reset" class="btn btn-sm btn-danger">Reset</button>
-                  </form>
+                  </div>
                 </div>
               </div>
+              <div class="card-footer">
+                <div class="text-right">
+                  <button type="submit" onclick="return  confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-sm btn-primary">SIMPAN</button>
+                  <button type="reset" class="btn btn-sm btn-danger">Reset</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

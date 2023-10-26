@@ -31,5 +31,13 @@ class trxPasien extends Model
 
     protected $table = 'trx_pasien';
 
+    public function Bed()
+    {
+        return $this->hasOne(Bed::class, 'trx_id', 'trx_id');
+    }
     
+    public function trxBooking()
+    {
+        return $this->hasMany(Bed::class, 'trx_id', 'trx_id');
+    }
 }

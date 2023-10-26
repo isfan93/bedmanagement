@@ -12,7 +12,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('adminlte')}}/dist/css/adminlte.min.css">
     {{-- Back to Top --}}
-    <link rel="stylesheet" href="{{asset('adminlte')}}/dist/css/backtotop.css">
+    <link rel="stylesheet" href="{{asset('adminlte')}}/wildan/backtotop.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/toastr/toastr.min.css">
     <!-- Wildan -->
@@ -63,10 +63,10 @@
             </a>
           </div>
         </li>
-        
       </ul>
     </nav>
     <!-- /.navbar -->
+    
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
@@ -109,7 +109,7 @@
 
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block">
-        Developed by <a href="https://instagram.com/w.auliaabdillah"><b>@w.auliaabdillah</b></a> | <b>Version</b> 2.0
+        Developed by <a href="https://instagram.com/w.auliaabdillah"><i class="fab fa-instagram" aria-hidden="true"></i><b>  @w.auliaabdillah</b></a> | <b>Version</b> 2.0
       </div>
       <strong>Copyright &copy; 2023</strong>. All rights reserved.
     </footer>
@@ -127,7 +127,7 @@
   <!-- AdminLTE for demo purposes -->
   <script src="{{asset('adminlte')}}/dist/js/demo.js"></script>
   {{-- Back to Top --}}
-  <script src="{{asset('adminlte')}}/dist/js/backtotop.js"></script>
+  <script src="{{asset('adminlte')}}/wildan/backtotop.js"></script>
   <!-- Toastr -->
   <script src="{{asset('adminlte')}}/plugins/toastr/toastr.min.js"></script>
 
