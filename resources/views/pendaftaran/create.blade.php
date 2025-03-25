@@ -57,46 +57,58 @@
                   @csrf
                     <div class="form-group">
                       <label for="bedbooking">Bed Booking <a style="color:red">*</a></label>
-                      <select required id="bedbooking" name="bedbooking" class="form-control select2bs4" style="width: 100%;">
+                      <select id="bedbooking" name="bedbooking" class="form-control select2bs4" style="width: 100%;" required>
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($beds as $bed)
-                          <option value="{{ $bed->id }}">{{ $bed->ruangan }} {{ $bed->namabed }} | {{ $bed->kelas }}</option>
+                          <option value="{{ $bed->id }}" {{ old('bedbooking') == $bed->id ? 'selected' : '' }}>{{ $bed->ruangan }} {{ $bed->namabed }} | {{ $bed->kelas }}</option>
                         @endforeach
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="namapasien">Nama lengkap pasien <a style="color:red">*</a></label>
-                      <input required id="namapasien" name="namapasien" type="text" class="form-control" placeholder="Nama lengkap pasien...">
+                      <input required id="namapasien" name="namapasien" type="text" class="form-control" placeholder="Nama lengkap pasien..." value="{{old('namapasien')}}">
                     </div>
                     <div class="form-group">
                       <label for="norekmed">No rekmed pasien <a style="color:red">*</a></label>
-                      <input required id="norekmed" name="norekmed" type="number" class="form-control" placeholder="No rekmed pasien...">
+                      <input required id="norekmed" name="norekmed" type="number" class="form-control" placeholder="No rekmed pasien..." value="{{old('norekmed')}}">
                     </div>
                     <div class="form-group">
                       <label for="tgllahir">Tanggal lahir pasien <a style="color:red">*</a></label>
-                      <input required id="tgllahir" name="tgllahir" type="date" class="form-control">
+                      <input required id="tgllahir" name="tgllahir" type="date" class="form-control" value="{{old('tgllahir')}}>
                     </div>
                     <div class="form-group">
                       <label for="jeniskelamin">Jenis Kelamin<a style="color:red">*</a></label>
-                      <select required id="jeniskelamin" name="jeniskelamin" class="form-control select2bs4" style="width: 100%;">
+                      <select id="jeniskelamin" name="jeniskelamin" class="form-control select2bs4" style="width: 100%;" required>
                         <option disabled selected="selected">-- Pilih salah satu --</option>
-                        <option value="pria">Pria</option>
-                        <option value="wanita">Wanita</option>
+                        <option value="pria" {{ old('jeniskelamin') == 'pria' ? 'selected' : '' }}>Pria</option>
+                        <option value="wanita" {{ old('jeniskelamin') == 'wanita' ? 'selected' : '' }}>Wanita</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="alamatpasien">Alamat pasien <a style="color:red">*</a></label>
-                      <textarea required id="alamatpasien" name="alamatpasien" type="text" class="form-control" placeholder="Alamat pasien..." rows="2"></textarea>
+                      <textarea required id="alamatpasien" name="alamatpasien" type="text" class="form-control" placeholder="Alamat pasien..." rows="2">{{old('alamatpasien')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="agama">Agama <a style="color:red">*</a></label>
+                      <select id="agama" name="agama" class="form-control select2bs4" style="width: 100%;" required>
+                        <option disabled selected="selected">-- Pilih salah satu --</option>
+                          <option value="Islam" {{ old('Islam') }}>Islam</option>
+                          <option value="Kristen Katolik" {{ old('Kristen Katolik') }}>Kristen Katolik</option>
+                          <option value="Kristen Protestan" {{ old('Kristen Protestan') }}>Kristen Protestan</option>
+                          <option value="Hindu" {{ old('Hindu') }}>Hindu</option>
+                          <option value="Budha" {{ old('Budha') }}>Budha</option>
+                          <option value="Konghucu" {{ old('Konghucu') }}>Konghucu</option>
+                      </select>
                     </div>
                 </div>
                 {{-- ROW 2 ---------------------------------------------------------------------------------------------------------- --}}
                 <div class="col-md-4">
                     <div class="form-group">
                       <label for="dpjp1">DPJP 1 <a style="color:red">*</a></label>
-                      <select required id="dpjp1" name="dpjp1" class="form-control select2bs4" style="width: 100%;">
+                      <select id="dpjp1" name="dpjp1" class="form-control select2bs4" style="width: 100%;" required>
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp1') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -105,7 +117,7 @@
                       <select id="dpjp2" name="dpjp2" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp2') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -114,7 +126,7 @@
                       <select id="dpjp3" name="dpjp3" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp3') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -123,7 +135,7 @@
                       <select id="dpjp4" name="dpjp4" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp4') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -132,7 +144,7 @@
                       <select id="dpjp5" name="dpjp5" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp5') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -141,29 +153,38 @@
                       <select id="dpjp6" name="dpjp6" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($dokters as $dokter)
-                          <option value="{{ $dokter->id }}">{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
+                          <option value="{{ $dokter->id }}" {{ old('dpjp6') == $dokter->id ? 'selected' : '' }}>{{ $dokter->namadokter }} | Spesialis {{ $dokter->spesialis }}</option>
                         @endforeach
                       </select>
                     </div>
+                  </div>
+                  {{-- ROW 3 ---------------------------------------------------------------------------------------------------------- --}}
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="diagnosa">Diagnosa awal <a style="color:red">*</a></label>
-                      <input required id="diagnosa" name="diagnosa" type="text" class="form-control" placeholder="Diagnosa awal...">
+                      <input required id="diagnosa" name="diagnosa" type="text" class="form-control" placeholder="Diagnosa awal..." value="{{old('diagnosa')}}">
                     </div>
-                </div>
-                {{-- ROW 3 ---------------------------------------------------------------------------------------------------------- --}}
-                <div class="col-md-4">
                     <div class="form-group">
                       <label for="penjamin">Penjamin <a style="color:red">*</a></label>
-                      <select required id="penjamin" name="penjamin" class="form-control select2bs4" style="width: 100%;">
+                      <select id="penjamin" name="penjamin" class="form-control select2bs4" style="width: 100%;" required>
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($penjamins as $penjamin)
-                          <option value="{{ $penjamin->id }}">{{ $penjamin->namapenjamin }}</option>
+                          <option value="{{ $penjamin->id }}" {{ old('penjamin') == $penjamin->id ? 'selected' : '' }}>{{ $penjamin->namapenjamin }}</option>
                         @endforeach
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="keterangan">Keterangan pasien</label>
-                      <textarea id="keterangan" name="keterangan" type="text" class="form-control" placeholder="Keterangan..." rows="4"></textarea>
+                      <textarea id="keterangan" name="keterangan" type="text" class="form-control" placeholder="Keterangan..." rows="4">{{old('keterangan')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="asalpasien">Asal Pasien <a style="color:red">*</a></label>
+                      <select id="asalpasien" name="asalpasien" class="form-control select2bs4" style="width: 100%;" required>
+                        <option disabled selected="selected">-- Pilih salah satu --</option>
+                        <option  value="IGD" {{ old('asalpasien') == 'IGD' ? 'selected' : '' }}>IGD</option>
+                        <option  value="PONEK/VK" {{ old('asalpasien') == 'PONEK/VK' ? 'selected' : '' }}>PONEK/VK</option>
+                        <option  value="POLIKLINIK" {{ old('asalpasien') == 'POLIKLINIK' ? 'selected' : '' }}>POLIKLINIK</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -211,4 +232,31 @@
 
     });
   </script>
+
+  {{-- Menampilkan Message menggunakan library Toastr --}}
+  <script>
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+    }
+  </script>
+  @if ($errors->any())
+    <script>
+      $(document).ready(function() {
+        @foreach ($errors->all() as $error)
+            toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:30000});
+        @endforeach
+      });
+      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
+    </script>
+  @endif
 @endsection

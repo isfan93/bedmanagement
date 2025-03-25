@@ -42,8 +42,62 @@
                     Informasi Bed
                   </h3>
                   <div>
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#tipebarang"> <i class="fas fa-upload"> </i> Tambah Bed Baru</button>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalCreate" data-toggle='tooltip' data-placement='left' title='Tambah master bed baru'> <i class="fas fa-upload"> </i> Tambah Bed Baru</button>
                   </div>
+
+                  {{-- modal --}}
+                  <div class="modal fade" id="ModalCreate" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal">Tambah Master Bed </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('bed.store') }}" method="post">
+                              @csrf
+                              <div class="modal-body">
+                                <div class="form-group">
+                                  <label for="namabed">Nama Bed <a style="color:red">*</a></label>
+                                  <input required id="namabed" name="namabed" value="" type="text" class="form-control" placeholder="Nama bed pasien...">
+                                </div>
+                                <div class="form-group">
+                                  <label for="kelas">Kelas Pelayanan <a style="color:red">*</a></label>
+                                  <select required id="kelas" name="kelas" class="form-control select2bs4" style="width: 100%;">
+                                    <option disabled selected="selected">-- Pilih salah satu --</option>
+                                      <option value="KELAS 3">KELAS 3</option>
+                                      <option value="KELAS 2">KELAS 2</option>
+                                      <option value="KELAS 1">KELAS 1</option>
+                                      <option value="UTAMA">UTAMA</option>
+                                      <option value="VIP">VIP</option>
+                                      <option value="VVIP">VVIP</option>
+                                      <option value="INTENSIF ANAK">INTENSIF ANAK</option>
+                                      <option value="INTENSIF DEWASA">INTENSIF DEWASA</option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label for="ruangan">RUANGAN <a style="color:red">*</a></label>
+                                  <select required id="ruangan" name="ruangan" class="form-control select2bs4" style="width: 100%;">
+                                    <option disabled selected="selected">-- Pilih salah satu --</option>
+                                      <option value="AZALEA">AZALEA</option>
+                                      <option value="AKASIA">AKASIA</option>
+                                      <option value="ASOKA">ASOKA</option>
+                                      <option value="ANTHURIUM">ANTHURIUM</option>
+                                      <option value="PERINATOLOGI">PERINATOLOGI</option>
+                                      <option value="INTENSIF DEWASA">INTENSIF DEWASA</option>
+                                  </select>
+                                </div>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="submit" class='btn btn-sm btn-primary'><i class="fa fa-floppy-disk"> </i> SIMPAN</button>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+
               </div>
             </div>
             <div class="card-body">
@@ -51,7 +105,6 @@
                 <thead>
                   <tr>
                     <th width="15px">no</th>
-                    <th>Id Bed</th>
                     <th>Nama Bed</th>
                     <th>Ruangan</th>
                     <th>Status</th>
@@ -62,8 +115,7 @@
                   <?php $no=1 ?>
                   @foreach ($beds as $bed)
                     <tr>
-                      <td>{{ $no }}</td>
-                      <td>{{$bed->id}}</td>
+                      <td>{{$no}}</td>
                       <td>{{$bed->namabed}}</td>
                       <td>{{$bed->ruangan}}</td>
                       <td>
@@ -74,13 +126,13 @@
                         @endif
                       </td>
                       <td width="10px"><div class="btn-group">
-                        <a href="" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit bed: {{$bed->namabed}}"><i class="fas fa-edit"></i></a>
+                        <a href="{{ route('bed.edit',$bed->id) }}" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit bed: {{$bed->namabed}}"><i class="fas fa-edit"></i></a>
                         @if ($bed->is_active==1)
-                          <a href="" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan bed: {{$bed->namabed}}"><i class="fas fa-times-circle"></i></a>
+                          <a href="{{ route('bed.Nonaktif',$bed->id) }}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan bed: {{$bed->namabed}}"><i class="fas fa-times-circle"></i></a>
                           @else
-                          <a href="" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aktifkan bed: {{$bed->namabed}}"><i class="fas fa-check"></i></a>
+                          <a href="{{ route('bed.Aktif',$bed->id) }}" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aktifkan bed: {{$bed->namabed}}"><i class="fas fa-check"></i></a>
                         @endif
-                        <a href="" type="button" class="btn btn-danger" data-placement="bottom" title="Hapus bed: {{$bed->namabed}}"><i class="fas fa-trash-alt"></i></a>
+                        <a href="{{ route('bed.Delete',$bed->id) }}" type="button" class="btn btn-danger" data-placement="bottom" title="Hapus bed: {{$bed->namabed}}"><i class="fas fa-trash-alt"></i></a>
                       </div></td>
                     </tr>
                     <?php $no++ ?>
@@ -88,7 +140,6 @@
                 </tbody>
                 <tfoot>
                     <th width="15px">no</th>
-                    <th>Id Bed</th>
                     <th>Nama Bed</th>
                     <th>Ruangan</th>
                     <th>Status</th>
@@ -125,4 +176,32 @@
       }).buttons().container().appendTo('#tabeldokter_wrapper .col-md-6:eq(0)');
     });
 </script>
+
+<script>
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "15000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+    }
+    $('.toastrDefaultError').click(function() {
+        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
+      });
+  </script>
+
+  @if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
+    </script>
+  @endif
 @endsection

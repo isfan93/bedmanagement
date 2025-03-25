@@ -15,6 +15,7 @@ class trxPasien extends Model
         'tgllahir',
         'jeniskelamin',
         'alamatpasien',
+        'agama',
         'diagnosa',
         'dpjp1',
         'dpjp2',
@@ -25,8 +26,11 @@ class trxPasien extends Model
         'ppja',
         'penjamin',
         'keterangan',
+        'asalpasien',
         'status',
         'tgl_approve',
+        'infus_pasang',
+        'infus_ganti'
     ];
 
     protected $table = 'trx_pasien';

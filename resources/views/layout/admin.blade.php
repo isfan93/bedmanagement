@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title') | BED MANAGEMENT</title>
+    <title>@yield('title') | {{config('app.name')}}</title>
+    <link rel="icon" href="{{ asset('adminlte') }}/src/favicon.png" type="image/x-icon"/>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/toastr/toastr.min.css">
     <!-- Wildan -->
     <link rel="stylesheet" href="{{asset('adminlte')}}/wildan/color.css">
+    <link href="{{asset('adminlte')}}/src/icon.png" rel="shortcut icon">
     
 
     <!-- CSS--------------------------------------------------------------------------------------------------------------------------------- -->
@@ -46,7 +48,7 @@
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link user-panel" data-toggle="dropdown" href="#">
-            <b>Wildan Auliana <i class="fas fa-angle-down"></i></b> 
+            <b>{{Auth::user()->name}} <i class="fas fa-angle-down"></i></b> 
           </a>
           <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
             {{-- <div class="user-panel mt-2 pb-2 mb-2 d-flex">
@@ -54,11 +56,11 @@
                 <img src="{{asset('adminlte')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
               </div>
             </div> --}}
-            <a href="userprofile" class="dropdown-item">
+            {{-- <a href="userprofile" class="dropdown-item">
               <i class="fas fa-user mr-1"></i> User Profile
-            </a>
+            </a> --}}
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <a href="{{route('logout')}}" class="dropdown-item">
               <i class="fas fa-sign-out-alt mr-1"></i> Logout
             </a>
           </div>
@@ -74,7 +76,7 @@
       <a href="{{ url('dashboard') }}" class="brand-link">
         <img src="{{asset('adminlte')}}/src/icon.png" alt="Bed management logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         {{-- <span class="brand-text font-weight-light">{{config('app.name')}}</span> --}}
-        <span class="brand-text font-weight-light">BED MANAGEMENT</span>
+        <span class="brand-text font-weight-light">{{config('app.name')}}</span>
       </a>
 
       <!-- Sidebar -->
@@ -109,7 +111,8 @@
 
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block">
-        Developed by <a href="https://instagram.com/w.auliaabdillah"><i class="fab fa-instagram" aria-hidden="true"></i><b>  @w.auliaabdillah</b></a> | <b>Version</b> 2.0
+          <!-- Hargailah jasa pembuat meskipun orangnya sudah tidak di perusahaan ini. jangan dihapus lur. -->
+        Developed <b><a href="#"> by SIRS Intan Husada </a> | Version</b> 2.0
       </div>
       <strong>Copyright &copy; 2023</strong>. All rights reserved.
     </footer>

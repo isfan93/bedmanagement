@@ -7,60 +7,53 @@ use Illuminate\Http\Request;
 
 class bedController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $beds = Bed::orderBY('ruangan','asc')->get();
         return view('master.bed',['beds' => $beds]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $bedbaru    = [
+            'namabed'   => $request->namabed,
+            'kelas'     => $request->kelas,
+            'ruangan'   => $request->ruangan,
+            'bedstatus' => 0,
+        ];
+        Bed::create($bedbaru);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('bed.index')->with('Success','Bed telah berhasil ditambahkan.');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(string $id)
     {
-        //
+        $bed       = Bed::where('id',$id)
+                        ->first();
+
+        return view('master/bededit',[ 'bed' => $bed]);
+    }
+    
+    public function bedNonaktif(string $id)
+    {
+        $mBed           = [
+                'is_active' =>  '0',
+            ];
+            Bed::where('id',$id)->update($mBed);
+        return redirect()->route('bed.index')->with('success','Bed telah berhasil di Non-aktifkan');
+    }
+    
+    public function bedAktif(string $id)
+    {
+        $mBed           = [
+                'is_active' =>  '1',
+            ];
+            Bed::where('id',$id)->update($mBed);
+        return redirect()->route('bed.index')->with('success','Bed telah berhasil di Aktifkan');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function bedDelete(string $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        dd($id,'Delete');
     }
 }

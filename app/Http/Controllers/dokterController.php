@@ -7,63 +7,39 @@ use Illuminate\Http\Request;
 
 class dokterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $dokters = Dokter::orderBY('namadokter','asc')->get();
-
-        // dd($dokters);
-
         return view('master.dokter',[ 'dokters' => $dokters]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $dokterbaru = [
+            'namadokter' => $request->namadokter,
+            'spesialis'  => $request->spesialis,
+        ];
+
+        Dokter::create($dokterbaru);
+        return redirect()->route('dokter.index')->with('Success','Dokter baru berhasil disimpan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function aktif($id)
     {
-        //
+        $aktifkan = [
+            'is_active' => '1',
+        ];
+        Dokter::where('id',$id)->update($aktifkan);
+        return redirect()->route('dokter.index')->with('success','Dokter telah berhasil di aktifkan');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    
+    public function nonaktif($id)
     {
-        //
-    }
+        $nonaktifkan = [
+            'is_active' => '0',
+        ];
+        Dokter::where('id',$id)->update($nonaktifkan);
+        return redirect()->route('dokter.index')->with('success','Dokter telah berhasil di aktifkan');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

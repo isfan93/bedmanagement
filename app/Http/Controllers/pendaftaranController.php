@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 
 class pendaftaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {  
         $beds       = Bed::with('trxPasien')
@@ -29,14 +26,10 @@ class pendaftaranController extends Controller
         
         return view('pendaftaran.index',['beds'=> $beds]);
     }
-
-    /**
-        * Show the form for creating a new resource.
-    */
     
     public function create()
     {
-        $beds       = Bed::where('bedstatus','2')
+        $beds       = Bed::where('bedstatus','3')
                         ->orwhere('bedstatus','0')
                         ->where('is_active','1')
                         ->orderBY('ruangan','asc')
@@ -56,13 +49,23 @@ class pendaftaranController extends Controller
                                         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // dd($request)->all();
-        // RUMUS Trx Id
+
+        $request->validate([
+            'bedbooking'    => 'required|string',
+            'namapasien'    => 'required|string',
+            'norekmed'      => 'required',
+            'tgllahir'      => 'required',
+            'jeniskelamin'  => 'required',
+            'alamatpasien'  => 'required',
+            'dpjp1'         => 'required',
+            'diagnosa'      => 'required',
+            'penjamin'      => 'required',
+            'asalpasien'    => 'required',
+            'agama'         => 'required',
+        ]);
+
         $tglskrg    = Carbon::now()->format('dmY');
         $today      = now()->toDateString();
         $trxhariini = trxPasien::whereDate('created_at',$today)->count();
@@ -72,8 +75,6 @@ class pendaftaranController extends Controller
 
         $trx_id     = 'TP'.$tglskrg.$formattedNumber;   
 
-        // Insert to DB
-        // dd($request->penjamin);
         $trxPasien = [
             'trx_id'        => $trx_id,
             'namapasien'    => $request->namapasien,
@@ -81,6 +82,7 @@ class pendaftaranController extends Controller
             'tgllahir'      => $request->tgllahir,
             'jeniskelamin'  => $request->jeniskelamin,
             'alamatpasien'  => $request->alamatpasien,
+            'agama'         => $request->agama,
             'dpjp1'         => $request->dpjp1,
             'dpjp2'         => $request->dpjp2,
             'dpjp3'         => $request->dpjp3,
@@ -90,9 +92,10 @@ class pendaftaranController extends Controller
             'diagnosa'      => $request->diagnosa,
             'penjamin'      => $request->penjamin,
             'keterangan'    => $request->keterangan,
+            'asalpasien'    => $request->asalpasien,
             'status'        => 'booking',
         ];
-        // memasukan data diatas ke table DB
+
         trxPasien::create($trxPasien);
 
         $trxBooking = [
@@ -103,46 +106,7 @@ class pendaftaranController extends Controller
         ];
         trxBooking::create($trxBooking);
 
-        // Update m_bed
-        $trxBed = [
-            'trx_id'        => $trx_id,
-            'bedstatus'     => '4'
-        ];
-        Bed::where('id',$request->bedbooking)->update($trxBed);
 
-        // notif berhasil
         return redirect()->route('pendaftaran.index')->with('success','Transaksi Booking pasien berhasil disimpan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

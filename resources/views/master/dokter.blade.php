@@ -37,13 +37,43 @@
           <div class="card card-info card-outline">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="card-title">
-                    <i class="fas fa-table"></i>
-                    Informasi Dokter
-                  </h3>
-                  <div>
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#tipebarang"> <i class="fas fa-upload"> </i> Tambah Dokter Baru</button>
+                <h3 class="card-title">
+                  <i class="fas fa-table"></i>
+                  Informasi Dokter
+                </h3>
+                <div>
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalCreate"> <i class="fas fa-upload"> </i> Tambah Dokter Baru</button>
+                </div>
+
+                {{-- modal --}}
+                <div class="modal fade" id="ModalCreate" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="modal">Tambah Data Dokter </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <form action="{{ route('dokter.store') }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <label for="namadokter">Nama Dokter <a style="color:red">*</a></label>
+                                <input required id="namadokter" name="namadokter" value="" type="text" class="form-control" placeholder="Nama Dokter...">
+                              </div>
+                              <div class="form-group">
+                                <label for="spesialis">Spesialis <a style="color:red">*</a></label>
+                                <input required id="spesialis" name="spesialis" value="" type="text" class="form-control" placeholder="Spesialis Dokter...">
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class='btn btn-sm btn-primary'><i class="fa fa-floppy-disk"> </i> SIMPAN</button>
+                            </div>
+                          </form>
+                      </div>
                   </div>
+                </div>
               </div>
             </div>
             <div class="card-body">
@@ -74,11 +104,11 @@
                         @endif
                       </td>
                       <td width="10px"><div class="btn-group">
-                        <a href="" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit dokter: {{$dokter->namadokter}}"><i class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit dokter: {{$dokter->namadokter}}"><i class="fas fa-edit"></i></button>
                         @if ($dokter->is_active==1)
-                          <a href="" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan dokter: {{$dokter->namadokter}}"><i class="fas fa-times-circle"></i></a>
+                          <a href="{{ route('dokter.nonaktif', $dokter->id) }}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan dokter: {{$dokter->namadokter}}"><i class="fas fa-times-circle"></i></a>
                           @else
-                          <a href="" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aktifkan dokter: {{$dokter->namadokter}}"><i class="fas fa-check"></i></a>
+                          <a href="{{ route('dokter.aktif', $dokter->id) }}" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aktifkan dokter: {{$dokter->namadokter}}"><i class="fas fa-check"></i></a>
                         @endif
                         <a href="" type="button" class="btn btn-danger" data-placement="bottom" title="Hapus dokter: {{$dokter->namadokter}}"><i class="fas fa-trash-alt"></i></a>
                       </div></td>
